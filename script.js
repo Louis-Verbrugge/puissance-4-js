@@ -80,6 +80,16 @@ window.onload = function () {
 function annimation() {
     context.clearRect(0, 0, WIDTH, HEIGHT);
 
+    //partie haut de l'ecran: (score+ATH)
+    context.fillStyle = "red";
+    context.fillRect(0, 0, WIDTH, possitionGrilleY);
+
+    context.fillStyle = "black";
+    context.font = "48px serif";
+    context.fillText("Joueur " + (joueurActuel+1), 10, 50);
+
+
+    //partie bas de l'ecran: (grille de jeu)
     context.fillStyle = "black";
     context.fillRect(0, possitionGrilleY, WIDTH, HEIGHT);
 
@@ -109,7 +119,7 @@ function piecePlusBas(coloneSelectionner) {
     
     pieceMouvement = {
         x: coloneSelectionner * largeurGrilleX,
-        y: -taillePiece,
+        y: possitionGrilleY-taillePiece*2,
         newPosX: coloneSelectionner * largeurGrilleX,
         newPosY: possitionGrilleY + hauteurPiece * largeurGrilleY,
         ease: "bounce"
@@ -153,27 +163,28 @@ function moveMouse(event) {
 }
 
 function clickMouse() {
-    console.log("clickMouse dans la colone" + coloneSelectionner);
-    possitionPlusBas = piecePlusBas(coloneSelectionner);
-
+    if (!pieceEnCoursMouvement) {
+        console.log("clickMouse dans la colone" + coloneSelectionner);
+        possitionPlusBas = piecePlusBas(coloneSelectionner);
+    } else {   
+        alert("attender que le mouvement de la piece se termine");
+    }
 }
 
 function annim(pieceMouvementt) {
     gsap.to(pieceMouvementt, { x: pieceMouvementt.newPosX, y: pieceMouvementt.newPosY, duration: 0.5, ease: pieceMouvementt.ease })
 }
 
-
 function annimPiece(pieceMouvementtt) {
     gsap.fromTo(pieceMouvementtt, {
         x: pieceMouvementtt.x,
-        y: 0
+        y: pieceMouvementtt.y
     }, {
         x: pieceMouvementtt.newPosX,
         y: pieceMouvementtt.newPosY,
         duration: 1,
         ease: pieceMouvementtt.ease,
         onComplete: () => {
-            
             if (joueurActuel == 0) {
                 couleurAffichePiece = "red";
                 joueurActuel = 1;
@@ -182,9 +193,7 @@ function annimPiece(pieceMouvementtt) {
                 joueurActuel = 0;
             }
             pieceEnCoursMouvement = false;
-
             plateau[Math.round((pieceMouvementtt.newPosY-possitionGrilleY) / largeurGrilleY)][Math.round(pieceMouvementtt.newPosX / largeurGrilleX)] = couleurAffichePiece;
-
         }
     })
 }
