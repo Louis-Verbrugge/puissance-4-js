@@ -15,14 +15,27 @@
 
 <body>
 
-    <div class="pageJeu">
-            
-        <h3 id="textJoueur">Joueur 1</h3>
+    <div class="page">
 
-        <h3 class="imageFleche">FLECHE</h3>
 
-        <canvas id="board"></canvas>
-        
+        <div class="pageJeu">
+
+            <div class="blockATH">
+                <h3 id="textJoueur" class="textATH">Joueur: 1</h3>
+                <h3 id="textTour" class="textATH">Tour 0</h3>
+                <button onclick="resetGame()" id="btnStartGame" class="textATH">
+                    <h3>startGame</h3>
+                </button>
+            </div>
+
+
+
+            <img class="imageFleche" id="idImgFleche" src="assets/img/fleche_vers_le_vas.png" alt="fleche" id="fleche">
+
+            <canvas id="board"></canvas>
+
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
