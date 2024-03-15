@@ -1,4 +1,7 @@
 
+
+let textJoueur = document.getElementById("textJoueur");
+
 let HEIGHT = 700;
 let WIDTH = 500;
 
@@ -62,6 +65,9 @@ let possitionFleche = {
     height: taillePiece
 }
 
+gsap.to(".imageFleche", { x: possitionFleche.taillePiece, y: possitionFleche.newPosY, duration: 0.7, ease: possitionFleche.ease })
+
+
 
 window.onload = function () {   
     board = document.getElementById("board")
@@ -82,11 +88,6 @@ function annimation() {
     //partie haut de l'ecran: (score+ATH)
     context.fillStyle = "white ";
     context.fillRect(0, 0, WIDTH, possitionGrilleY);
-
-    context.fillStyle = "black";
-    context.font = "48px serif";
-    context.fillText("Joueur " + (joueurActuel+1), 10, 50);
-
 
     //partie bas de l'ecran: (grille de jeu)
     context.fillStyle = "black";
@@ -175,6 +176,8 @@ function clickMouse() {
 }
 
 function annimFleche(pieceMouvementt) {
+    gsap.to(".imageFleche", { x: pieceMouvementt.newPosX, y: pieceMouvementt.newPosY, duration: 0.7, ease: pieceMouvementt.ease })
+
     gsap.to(pieceMouvementt, { x: pieceMouvementt.newPosX, y: pieceMouvementt.newPosY, duration: 0.7, ease: pieceMouvementt.ease })
 }
 
@@ -191,12 +194,19 @@ function annimPiece(pieceMouvementtt) {
             if (joueurActuel == 0) {
                 couleurAffichePiece = "red";
                 joueurActuel = 1;
+                modifCelluleHTML(textJoueur, "Joueur 2")
             } else {
                 couleurAffichePiece = "yellow";
                 joueurActuel = 0;
+                modifCelluleHTML(textJoueur, "Joueur 1")
             }
             pieceEnCoursMouvement = false;
             plateau[Math.round((pieceMouvementtt.newPosY-possitionGrilleY) / largeurGrilleY)][Math.round(pieceMouvementtt.newPosX / largeurGrilleX)] = couleurAffichePiece;
         }
     })
+}
+
+
+function modifCelluleHTML(idBalise, texte) {
+    idBalise.innerHTML = texte;
 }

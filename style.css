@@ -1,4 +1,16 @@
 
 body{
     text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #ebebeb;
+
+}
+
+.pageJeu{
+    display: flex;
+    justify-content: center;
+}
+
+.imageFleche{
+    display: flex;
 }
