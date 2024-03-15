@@ -59,12 +59,11 @@ let possitionFleche = {
     y: 100,
     newPosY: 100,
     width: taillePiece,
-    height: taillePiece,
-    ease: "power1.inOut"
+    height: taillePiece
 }
 
 
-window.onload = function () {
+window.onload = function () {   
     board = document.getElementById("board")
     board.height = HEIGHT;
     board.width = WIDTH;
@@ -81,7 +80,7 @@ function annimation() {
     context.clearRect(0, 0, WIDTH, HEIGHT);
 
     //partie haut de l'ecran: (score+ATH)
-    context.fillStyle = "red";
+    context.fillStyle = "white ";
     context.fillRect(0, 0, WIDTH, possitionGrilleY);
 
     context.fillStyle = "black";
@@ -104,6 +103,10 @@ function annimation() {
 
     context.drawImage(fondGrille, possitionGrilleX, possitionGrilleY, WIDTH - possitionGrilleX, HEIGHT - possitionGrilleY);
 
+}
+
+
+function finGame() {
 }
 
 
@@ -158,7 +161,7 @@ function moveMouse(event) {
     if ((0 <= possitionMouseX && possitionMouseX < WIDTH) && (possitionGrilleY <= possitionMouseY && possitionMouseY <= HEIGHT)) {
         possitionFleche.newPosX = Math.floor(possitionMouseX / largeurGrilleX) * largeurGrilleX;
         coloneSelectionner = possitionFleche.newPosX / largeurGrilleX;
-        annim(possitionFleche);
+        annimFleche(possitionFleche);
     }
 }
 
@@ -171,8 +174,8 @@ function clickMouse() {
     }
 }
 
-function annim(pieceMouvementt) {
-    gsap.to(pieceMouvementt, { x: pieceMouvementt.newPosX, y: pieceMouvementt.newPosY, duration: 0.5, ease: pieceMouvementt.ease })
+function annimFleche(pieceMouvementt) {
+    gsap.to(pieceMouvementt, { x: pieceMouvementt.newPosX, y: pieceMouvementt.newPosY, duration: 0.7, ease: pieceMouvementt.ease })
 }
 
 function annimPiece(pieceMouvementtt) {
