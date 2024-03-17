@@ -1,13 +1,16 @@
 
 
+import { affichePiece } from "src/affichage.js";
+
 let textNbTour = document.getElementById("textTour");
 let textJoueur = document.getElementById("textJoueur");
 let idImgFleche = document.getElementById("idImgFleche");
 
+
 let HEIGHT = 450;
 let WIDTH = 450;
 
-let fonctionEnCours = annimation;
+let fonctionEnCours = main;
 let FPS = 1000 / 60;
 
 let taillePiece = WIDTH / 7;
@@ -70,7 +73,10 @@ window.onload = function () {
     context = board.getContext("2d");
 
     document.addEventListener("mousemove", moveMouse);
-    document.addEventListener("click", clickMouse);
+    document.addEventListener("mousedown", clickMouse);
+    document.addEventListener("mouseup", upMouse);
+
+
     initGame();
     setInterval(() => fonctionEnCours(), FPS);
 }
@@ -99,7 +105,7 @@ function initGame() {
 }
 
 
-function annimation() {
+function main() {
 
     context.fillStyle = "black";
     context.fillRect(0, possitionGrilleY, WIDTH, HEIGHT);
@@ -140,17 +146,7 @@ function modifierInfoGrille(possitionPlusBas) {
     }
 }
 
-function affichePiece() {
-    plateau.forEach((ligne, y) => {
-        ligne.forEach((colone, x) => {
-            if (colone === "red") {
-                context.drawImage(imagePieceRed, x * largeurGrilleX, y * largeurGrilleY + possitionGrilleY, largeurGrilleX, largeurGrilleY);
-            } else if (colone === "yellow") {
-                context.drawImage(imagePieceYellow, x * largeurGrilleX, y * largeurGrilleY + possitionGrilleY, largeurGrilleX, largeurGrilleY);
-            }
-        })
-    })
-}
+
 
 
 function moveMouse(event) {
@@ -164,6 +160,8 @@ function moveMouse(event) {
 }
 
 function clickMouse() {
+    changerCurseur("grabbing");
+
     if (!pieceEnCoursMouvement) {
         if (0 <= possitionMouseX && possitionMouseX < WIDTH &&
             possitionGrilleY <= possitionMouseY && possitionMouseY <= HEIGHT) {
@@ -220,4 +218,13 @@ function resetGame() {
             gsap.to("#board", { opacity: 1, duration: 0.5 });
         }
     })
+}
+
+function upMouse() {
+    changerCurseur("grab");
+}
+
+function changerCurseur(newCurseur) {
+    document.body.style.cursor = newCurseur;
+
 }
