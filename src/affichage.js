@@ -1,6 +1,9 @@
 
 
 import { constante, variable } from "./variable.js";
+import { checkWin } from "./fonctionCalcul.js";
+import { testtesttest, pageFin } from "./pageFinGame.js";
+
 
 
 function changeTextHTML(baliseHTML, text) {
@@ -25,12 +28,14 @@ export function annim(pieceMouvementt) {
 }
 
 export function annimPiece(pieceMouvementtt) {
-    variable.nbTour++;
+    
     changeTextHTML(variable.textNbTour, "Tour: " + variable.nbTour);
-    if (constante.joueurActuel == 0) {
-        changeTextHTML(textJoueur, "Joueur: " + 2);
+    if (variable.joueurActuel == 0) {
+        changeTextHTML(textJoueur, `Joueur: Yellow `);
+        variable.nbTour++;
+
     } else {
-        changeTextHTML(textJoueur, "Joueur: " + 1);
+        changeTextHTML(textJoueur, `Joueur: Red `);
     }
 
     constante.annimationGSAP = gsap.fromTo(pieceMouvementtt, {
@@ -43,15 +48,21 @@ export function annimPiece(pieceMouvementtt) {
         ease: pieceMouvementtt.ease,
         onComplete: () => {
 
-            if (constante.joueurActuel == 0) {
+            if (variable.joueurActuel == 0) {
                 constante.couleurAffichePiece = "red";
-                constante.joueurActuel = 1;
+                variable.joueurActuel = 1;
             } else {
                 constante.couleurAffichePiece = "yellow";
-                constante.joueurActuel = 0;
+                variable.joueurActuel = 0;
             }
             constante.pieceEnCoursMouvement = false;
             variable.plateau[Math.round((pieceMouvementtt.newPosY) / constante.largeurGrilleY)][Math.round(pieceMouvementtt.newPosX / constante.largeurGrilleX)] = constante.couleurAffichePiece;
+            if (checkWin()) {
+                testtesttest();
+                variable.fonctionEnCours = pageFin
+            }
+
         }
     })
 }
+

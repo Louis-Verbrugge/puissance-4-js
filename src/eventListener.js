@@ -8,19 +8,25 @@ function changerCurseur(newCurseur) {
 }
 
 export function moveMouse(event) {
-    variable.possitionMouseX = event.pageX - (constante.board.clientLeft + constante.board.offsetLeft);
-    constante.possitionMouseY = event.pageY - (constante.board.clientTop + constante.board.offsetTop);
-    if ((0 <= variable.possitionMouseX && variable.possitionMouseX < constante.WIDTH) && (0 <= constante.possitionMouseY && constante.possitionMouseY <= constante.HEIGHT )) {
-        variable.possitionFleche.newPosX = Math.floor(variable.possitionMouseX / constante.largeurGrilleX) * constante.largeurGrilleX;
-        constante.coloneSelectionner = variable.possitionFleche.newPosX / constante.largeurGrilleX;
-        annim(variable.possitionFleche);
+    if (!variable.finGame) {
+        variable.possitionMouseX = event.pageX - (constante.board.clientLeft + constante.board.offsetLeft);
+        constante.possitionMouseY = event.pageY - (constante.board.clientTop + constante.board.offsetTop);
+        if ((0 <= variable.possitionMouseX && variable.possitionMouseX < constante.WIDTH) && (0 <= constante.possitionMouseY && constante.possitionMouseY <= constante.HEIGHT )) {
+            variable.possitionFleche.newPosX = Math.floor(variable.possitionMouseX / constante.largeurGrilleX) * constante.largeurGrilleX;
+            variable.coloneSelectionner = variable.possitionFleche.newPosX / constante.largeurGrilleX;
+            annim(variable.possitionFleche);
+        }
     }
 }
 
 
-export function clickMouse() {
+export function clickMouse() {  
     changerCurseur("grabbing");
-    if (!constante.pieceEnCoursMouvement) {
+}
+
+export function upMouse() {
+    changerCurseur("grab");
+    if (!constante.pieceEnCoursMouvement && !variable.finGame) {
         if (0 <= variable.possitionMouseX && variable.possitionMouseX < constante.WIDTH &&
             0 <= constante.possitionMouseY && constante.possitionMouseY <= constante.HEIGHT ) {
             if (piecePlusBas()) {
@@ -29,8 +35,4 @@ export function clickMouse() {
             }
         }
     }
-}
-
-export function upMouse() {
-    changerCurseur("grab");
 }

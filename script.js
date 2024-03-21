@@ -5,11 +5,15 @@ import { constante, variable } from './src/variable.js';
 import { moveMouse, clickMouse, upMouse } from './src/eventListener.js';
 
 
-let fonctionEnCours = main;
+
+const button = document.getElementById("btnStartGame");
+
 
 
 
 window.onload = function () {
+
+    
     constante.board = document.getElementById("board")
     constante.board.style.WIDTH = constante.WIDTH + "px";
     constante.board.style.height  = constante.HEIGHT  + "px";
@@ -21,12 +25,18 @@ window.onload = function () {
     document.addEventListener("mouseup", upMouse);
     variable.idImgFleche.style.width = constante.taillePiece + "px";
     variable.idImgFleche.style.height  = constante.taillePiece + "px"
+
+    let idBlockJeu = document.getElementById("idBlockJeu");
+    idBlockJeu.style.width = constante.WIDTH + "px";
+    
     initGame();
-    setInterval(() => fonctionEnCours(), constante.FPS);
+    setInterval(() => variable.fonctionEnCours(), constante.FPS);
 }
 
 
 function initGame() {
+    variable.fonctionEnCours = main;
+    variable.finGame = false;
     variable.plateau = [
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""],
@@ -35,27 +45,29 @@ function initGame() {
         ["", "", "", "", "", "", ""],
         ["", "", "", "", "", "", ""]
     ];
-    constante.nbTour = 0;
-    changeTextHTML(variable.textNbTour, "Tour: " + constante.nbTour);
-    constante.joueurActuel = 0;
-    changeTextHTML(variable.textJoueur, "Joueur: " + (constante.joueurActuel + 1));
-    constante.coloneSelectionner = 0;
+    variable.nbTour = 0;
+    changeTextHTML(variable.textNbTour, "Tour: " + variable.nbTour);
+    variable.joueurActuel = 0;
+    changeTextHTML(textJoueur, `Joueur: Red `);
+    variable.coloneSelectionner = 0;
     constante.pieceEnCoursMouvement = false;
     if (constante.annimationGSAP != null) {
         if (constante.annimationGSAP.isActive()) {
             constante.annimationGSAP.kill();
         }
     }
+
+    gsap.to(".imageFleche", { opacity: 1, duration: 0.5 });
 }
 
 
 function main() {
-    variable.context.fillStyle = "black";
+    variable.context.fillStyle = "white";
     variable.context.fillRect(0, 0, constante.WIDTH, constante.HEIGHT);    
     affichePiece();
     //affiche piece en mouvement:
     if (constante.pieceEnCoursMouvement) {
-        variable.context.drawImage(constante.listeJoueur[constante.joueurActuel], variable.pieceMouvement.x, variable.pieceMouvement.y, constante.largeurGrilleX, constante.largeurGrilleY);
+        variable.context.drawImage(constante.listeJoueur[variable.joueurActuel], variable.pieceMouvement.x, variable.pieceMouvement.y, constante.largeurGrilleX, constante.largeurGrilleY);
     }
     variable.context.drawImage(constante.fondGrille, 0, 0, constante.WIDTH, constante.HEIGHT);
 }
@@ -65,7 +77,7 @@ function changeTextHTML(baliseHTML, text) {
     baliseHTML.innerHTML = text;
 }
 
-function resetGame() {
+button.addEventListener("click", () => {
     gsap.to("#board", {
         opacity: 0, duration: 0.5,
         onComplete: () => {
@@ -73,4 +85,5 @@ function resetGame() {
             gsap.to("#board", { opacity: 1, duration: 0.5 });
         }
     })
-}
+});
+  

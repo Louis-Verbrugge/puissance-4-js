@@ -1,6 +1,14 @@
 
-var WIDTH = 450;
-var HEIGHT = 450;
+
+if(innerWidth < 800) {
+    var WIDTH = innerWidth/1.5;
+    var HEIGHT = WIDTH;
+} else {
+    var WIDTH = innerWidth/4;
+    var HEIGHT = WIDTH;
+}
+
+
 
 var fondGrille = new Image();
 fondGrille.src = "assets/img/grille.png";
@@ -33,6 +41,12 @@ export let variable = {
     
     context: null,
     board: null,
+
+    finGame: false,
+
+    fonctionEnCours: null, //////////////
+    gaganant: null,
+
     possitionMouseX: null,
     possitionMouseY: null,
     coloneSelectionner: null,
@@ -60,6 +74,4 @@ export let variable = {
         WIDTH: constante.taillePiece,
         HEIGHT : constante.taillePiece
     }
-
-
 }
